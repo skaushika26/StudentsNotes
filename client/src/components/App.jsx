@@ -1,31 +1,29 @@
-import React from "react";
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+
 import Login from "./components/Login";
 import Register from "./components/Register";
 import Dashboard from "./components/Dashboard";
+import NotesList from "./components/NotesList";
+import NoteEditor from "./components/NoteEditor";
+import Archive from "./components/Archive";
 
-// Auth guard – redirects to /login if no token
-const PrivateRoute = ({ children }) => {
-  const token = localStorage.getItem("token");
-  return token ? children : <Navigate to="/login" replace />;
-};
-
-// Redirect logged-in users away from auth pages
-const PublicRoute = ({ children }) => {
-  const token = localStorage.getItem("token");
-  return token ? <Navigate to="/dashboard" replace /> : children;
-};
-
-export default function App() {
+function App() {
   return (
-    <BrowserRouter>
+    <Router>
       <Routes>
-        <Route path="/login"    element={<PublicRoute><Login /></PublicRoute>} />
-        <Route path="/register" element={<PublicRoute><Register /></PublicRoute>} />
-        <Route path="/dashboard" element={<PrivateRoute><Dashboard /></PrivateRoute>} />
-        {/* Default */}
-        <Route path="*" element={<Navigate to="/login" replace />} />
+        <Route path="/" element={<Login />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/dashboard" element={<Dashboard />} />
+
+        {/* YOUR ROUTES */}
+        <Route path="/notes" element={<NotesList />} />
+        <Route path="/notes/new" element={<NoteEditor />} />
+        <Route path="/notes/:id" element={<NoteEditor />} />
+        <Route path="/archive" element={<Archive />} />
       </Routes>
-    </BrowserRouter>
+    </Router>
   );
 }
+
+export default App;

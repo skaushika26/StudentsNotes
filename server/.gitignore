@@ -1,7 +1,7 @@
-node_modules/
-client/node_modules/
-server/node_modules/
-server/.env
-client/dist/
-.DS_Store
-Thumbs.db
+node_modules
+client/node_modules
+server/node_modules
+.env
+dist
+build
+.vite

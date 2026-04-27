@@ -1,43 +1,32 @@
-require("dotenv").config();
-const express  = require("express");
+const express = require("express");
 const mongoose = require("mongoose");
-const cors     = require("cors");
+const cors = require("cors");
+require("dotenv").config();
 
+const app = express();
+const noteRoutes = require("./routes/notes");
 const authRoutes = require("./routes/auth");
 
-const app  = express();
-const PORT = process.env.PORT || 5000;
-const MONGO_URI = process.env.MONGO_URI || "mongodb://localhost:27017/notenest";
 
-/* ── Middleware ── */
-app.use(cors({
-  origin: process.env.CLIENT_URL || "http://localhost:3000",
-  credentials: true,
-}));
+
+// Middleware
+app.use(cors());
 app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-
-/* ── Routes ── */
 app.use("/api/auth", authRoutes);
+app.use("/api/notes", noteRoutes);
 
-// Health check
-app.get("/api/health", (_req, res) =>
-  res.json({ status: "ok", timestamp: new Date().toISOString() })
-);
+// Test route
+app.get("/", (req, res) => {
+  res.send("API is running...");
+});
 
-// 404 fallback
-app.use((_req, res) => res.status(404).json({ message: "Route not found" }));
+// Connect MongoDB
+mongoose.connect(process.env.MONGO_URI)
+  .then(() => console.log("MongoDB Connected"))
+  .catch(err => console.log(err));
 
-/* ── Connect to MongoDB & start server ── */
-mongoose
-  .connect(MONGO_URI)
-  .then(() => {
-    console.log("✅  MongoDB connected:", MONGO_URI);
-    app.listen(PORT, () =>
-      console.log(`🚀  Server running on http://localhost:${PORT}`)
-    );
-  })
-  .catch((err) => {
-    console.error("❌  MongoDB connection failed:", err.message);
-    process.exit(1);
-  });
+// Start server
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});

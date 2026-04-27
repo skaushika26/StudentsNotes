@@ -1,28 +1,23 @@
-import React from "react";
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
+
 import Login from "./components/Login";
 import Register from "./components/Register";
 import Dashboard from "./components/Dashboard";
+import NotesList from "./components/NotesList";
+import NoteEditor from "./components/NoteEditor";
 
-const PrivateRoute = ({ children }) => {
-  const token = localStorage.getItem("token");
-  return token ? children : <Navigate to="/login" replace />;
-};
-
-const PublicRoute = ({ children }) => {
-  const token = localStorage.getItem("token");
-  return token ? <Navigate to="/dashboard" replace /> : children;
-};
-
-export default function App() {
+function App() {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/login"     element={<PublicRoute><Login /></PublicRoute>} />
-        <Route path="/register"  element={<PublicRoute><Register /></PublicRoute>} />
-        <Route path="/dashboard" element={<PrivateRoute><Dashboard /></PrivateRoute>} />
-        <Route path="*"          element={<Navigate to="/login" replace />} />
-      </Routes>
-    </BrowserRouter>
+    <Routes>
+      <Route path="/" element={<Login />} />
+      <Route path="/login" element={<Login />} />
+      <Route path="/register" element={<Register />} />
+      <Route path="/dashboard" element={<Dashboard />} />
+      <Route path="/notes" element={<NotesList />} />
+      <Route path="/notes/new" element={<NoteEditor />} />
+      <Route path="/notes/:id" element={<NoteEditor />} />
+    </Routes>
   );
 }
+
+export default App;
