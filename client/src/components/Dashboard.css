@@ -195,3 +195,37 @@ body {
 .modal-content button:last-child {
   background: #e2e8f0;
 }
+
+/* Export Page */
+.export-card {
+  background: white;
+  padding: 30px;
+  border-radius: 12px;
+  width: 300px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.export-card h2 {
+  margin-bottom: 10px;
+}
+
+.export-buttons {
+  margin-top: 20px;
+  display: flex;
+  gap: 10px;
+}
+
+.export-buttons button {
+  flex: 1;
+  padding: 10px;
+  border: none;
+  border-radius: 8px;
+  background-color: #3b82f6;
+  color: white;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.export-buttons button:hover {
+  background-color: #2563eb;
+}

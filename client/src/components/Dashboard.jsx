@@ -18,6 +18,7 @@ const SAMPLE_NOTES = [
 
 export default function Dashboard() {
   const navigate = useNavigate();
+  const [selectedNotes, setSelectedNotes] = useState([]);
 
   const [notes, setNotes] = useState(() => {
     const saved = localStorage.getItem("notes");
@@ -129,6 +130,18 @@ const handleDownload = (attachment) => {
   const renderNotes = (list) =>
   list.map((note) => (
     <div key={note.id} className="dash-note-card">
+        <input
+           type="checkbox"
+           checked={selectedNotes.includes(note.id)}
+           onChange={() => {
+             setSelectedNotes(prev =>
+              prev.includes(note.id)
+                ? prev.filter(id => id !== note.id)
+                : [...prev, note.id]
+             );
+           }}
+           style={{ marginBottom: "8px" }}
+        />
       <div className="note-actions">
         <span onClick={() => togglePin(note.id)}>📌</span>
         <span onClick={() => { setSelectedNote(note); setShowModal(true); }}>✏️</span>
@@ -185,6 +198,15 @@ const handleDownload = (attachment) => {
         <button onClick={() => navigate("/archive")}>
           📦 Archive
         </button>
+        <button 
+           onClick={() => {
+              console.log("Export clicked");
+              navigate("/export");
+           }}
+        >
+           ⬇️ Export
+        </button>
+
         <button onClick={() => navigate("/login")} className="logout-btn">
           🚪 Logout
         </button>
