@@ -229,3 +229,24 @@ body {
 .export-buttons button:hover {
   background-color: #2563eb;
 }
+
+.search-box {
+  display: flex;
+  align-items: center;
+  background: #f1f5f9;
+  padding: 8px 12px;
+  border-radius: 8px;
+  width: 250px;
+}
+
+.search-icon {
+  margin-right: 8px;
+  color: #64748b;
+}
+
+.search-box input {
+  border: none;
+  outline: none;
+  background: white;
+  width: 100%;
+}

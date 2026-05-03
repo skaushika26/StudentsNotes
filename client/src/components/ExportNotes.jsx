@@ -4,16 +4,42 @@ import { useNavigate } from "react-router-dom";
 const ExportNotes = () => {
   const [notes, setNotes] = useState([]);
   const [selectedIds, setSelectedIds] = useState([]);
+  const navigate = useNavigate();
  
   useEffect(() => {
-    const all = JSON.parse(localStorage.getItem("notes")) || [];
-    const selected = JSON.parse(localStorage.getItem("selectedNotes")) || [];
+    const saved = localStorage.getItem("notes");
 
-    setSelectedIds(selected);
+    console.log("📦 Raw localStorage:", saved);
 
-    const filtered = all.filter(n => selected.includes(n.id));
-    setNotes(filtered);
-    }, []);
+    if (saved) {
+      try {
+        const parsed = JSON.parse(saved);
+        console.log("✅ Parsed notes:", parsed);
+        setNotes(parsed);
+      } catch (err) {
+        console.error("❌ JSON parse error:", err);
+      }
+    } else {
+      console.log("⚠️ No notes found in localStorage");
+    }
+  }, []);
+  const exportSingleNote = (note) => {
+    const content = `
+  Title: ${note.title || "No Title"}
+  Content: ${note.body || "No Content"}
+  Tags: ${note.tags?.map(t => `#${t}`).join(", ") || "None"}
+  Date: ${new Date(note.createdAt).toLocaleString()}
+  -----------------------
+  `;
+
+    const blob = new Blob([content], { type: "text/plain" });
+    const url = URL.createObjectURL(blob);
+
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `${note.title || "note"}.txt`;
+    a.click();
+  };
 
   const exportAsJSON = () => {
     const data = JSON.stringify(notes, null, 2);
@@ -42,34 +68,41 @@ const ExportNotes = () => {
 
   return (
   <div className="dash-root">
-    
-    {/* Sidebar (same as dashboard) */}
-    <aside className="dash-sidebar">
-      <h2>📝 NoteNest</h2>
+  <aside className="dash-sidebar">
+    <h2>📝 NoteNest</h2>
 
-      <button onClick={() => navigate("/dashboard")}>🏠 Notes</button>
-      <button onClick={() => navigate("/archive")}>📦 Archive</button>
-      <button className="active">⬇️ Export</button>
-      <button onClick={() => navigate("/login")} className="logout-btn">
-        🚪 Logout
-      </button>
-    </aside>
+    <button onClick={() => navigate("/dashboard")}>🏠 Notes</button>
+    <button onClick={() => navigate("/archive")}>📦 Archive</button>
+    <button className="active">⬇️ Export</button>
+    <button onClick={() => navigate("/login")} className="logout-btn">
+      🚪 Logout
+    </button>
+  </aside>
 
-    {/* Main Content */}
-    <main className="dash-main">
-      <div className="export-card">
-        <h2>⬇️ Export Notes</h2>
-        <p>Total Notes: <strong>{notes.length}</strong></p>
-        <p>Selected Notes: {notes.length}</p>
+  <main className="dash-main">
+    <h2>⬇️ Export Notes</h2>
 
+    {notes.length === 0 ? (
+      <p>No notes available</p>
+    ) : (
+      <div className="dash-notes-grid">
+        {notes.map(note => (
+          <div key={note.id} className="dash-note-card">
+            <h3>{note.title}</h3>
+            <p>{note.body?.substring(0, 80)}</p>
 
-        <div className="export-buttons">
-          <button onClick={exportAsJSON}>Download JSON</button>
-          <button onClick={exportAsText}>Download Text</button>
-        </div>
+            <button
+              onClick={() => exportSingleNote(note)}
+              style={{ marginTop: "10px" }}
+            >
+              ⬇️ Download
+            </button>
+          </div>
+        ))}
       </div>
-    </main>
-  </div>
+    )}
+  </main>
+</div>
 );
 };
 

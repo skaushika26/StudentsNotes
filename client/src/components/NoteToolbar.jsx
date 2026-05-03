@@ -20,20 +20,15 @@ const NoteToolbar = ({
       }}
     >
       {/* Search */}
-      <input
-        type="text"
-        placeholder="Search notes..."
-        value={search}
-        onChange={(e) => onSearchChange(e.target.value)}
-        style={{
-          padding: "10px 12px",
-          borderRadius: "8px",
-          border: "1px solid #ddd",
-          width: "250px",
-          outline: "none",
-        }}
-      />
-
+      <div className="search-box">
+        <span className="search-icon">🔍</span>
+        <input
+            type="text"
+            placeholder="Search notes..."
+            value={search}
+            onChange={(e) => onSearchChange(e.target.value)}
+        />
+      </div>
       {/* Tag Filter */}
       <select
         value={activeTag}
@@ -53,20 +48,7 @@ const NoteToolbar = ({
         ))}
       </select>
 
-      {/* Sort */}
-      <select
-        value={sortOrder}
-        onChange={(e) => onSortChange(e.target.value)}
-        style={{
-          padding: "10px",
-          borderRadius: "8px",
-          border: "1px solid #ddd",
-          cursor: "pointer",
-        }}
-      >
-        <option value="newest">Newest</option>
-        <option value="oldest">Oldest</option>
-      </select>
+      
     </div>
   );
 };

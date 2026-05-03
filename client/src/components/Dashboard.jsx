@@ -130,18 +130,7 @@ const handleDownload = (attachment) => {
   const renderNotes = (list) =>
   list.map((note) => (
     <div key={note.id} className="dash-note-card">
-        <input
-           type="checkbox"
-           checked={selectedNotes.includes(note.id)}
-           onChange={() => {
-             setSelectedNotes(prev =>
-              prev.includes(note.id)
-                ? prev.filter(id => id !== note.id)
-                : [...prev, note.id]
-             );
-           }}
-           style={{ marginBottom: "8px" }}
-        />
+        
       <div className="note-actions">
         <span onClick={() => togglePin(note.id)}>📌</span>
         <span onClick={() => { setSelectedNote(note); setShowModal(true); }}>✏️</span>
