@@ -233,20 +233,32 @@ body {
 .search-box {
   display: flex;
   align-items: center;
-  background: #f1f5f9;
-  padding: 8px 12px;
-  border-radius: 8px;
-  width: 250px;
+  background:white;
+  
+  padding: 12px 16px;        /* increased height */
+  border-radius: 20px;       /* more rounded */
+  
+  width: 1140px;              /* increased width */
+  
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+  transition: 0.2s;
+}
+
+.search-box:hover {
+  box-shadow: 0 4px 10px rgba(0,0,0,0.12);
 }
 
 .search-icon {
-  margin-right: 8px;
+  margin-right: 10px;
   color: #64748b;
+  font-size: 16px;
 }
 
 .search-box input {
   border: none;
   outline: none;
   background: white;
+  
   width: 100%;
+  font-size: 14px;
 }

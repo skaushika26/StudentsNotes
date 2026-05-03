@@ -75,7 +75,7 @@ export default function Login() {
             <span className="brand-name">NoteNest</span>
           </div>
           <h2 className="card-tagline">Your thoughts,<br />beautifully shared.</h2>
-          <p className="card-sub">Collaborate, publish, and discover ideas with people who think like you.</p>
+          <p className="card-sub">Create, organize, and access your notes with ease.</p>
           <div className="card-dots">
             <span className="dot dot-active" />
             <span className="dot" />

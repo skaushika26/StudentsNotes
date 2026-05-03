@@ -90,7 +90,7 @@ export default function Register() {
           <div className="reg-left-body">
             <h2 className="reg-tagline">Start sharing<br />your ideas today.</h2>
             <ul className="reg-perks">
-              {["Write & publish notes instantly","Collaborate with your community","Discover curated content"].map((p) => (
+              {["Write & publish notes instantly","Organize, tag, and manage your notes effortlessly","Quickly search, filter, and access your notes"].map((p) => (
                 <li key={p} className="reg-perk">
                   <span className="reg-perk-icon"><CheckIcon /></span>
                   {p}
@@ -109,7 +109,7 @@ export default function Register() {
         <div className="reg-right">
           <div className="reg-form-header">
             <h1 className="reg-title">Create account</h1>
-            <p className="reg-subtitle">Join thousands of note creators</p>
+            <p className="reg-subtitle">Start organizing your notes smarter</p>
           </div>
 
           {error && (
