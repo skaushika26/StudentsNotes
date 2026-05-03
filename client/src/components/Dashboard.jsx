@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./Dashboard.css";
 import NoteModal from "./NoteModal";
-import NoteToolbar from "./Notetoolbar";
+import NoteToolbar from "./NoteToolbar";
 
 const SAMPLE_NOTES = [
   {
