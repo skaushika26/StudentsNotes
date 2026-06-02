@@ -1,0 +1,121 @@
+/* Notetoolbar.css — Search, Tag chips, Sort for Dashboard */
+
+.ntb-root {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 12px 14px;
+  margin-bottom: 20px;
+}
+
+/* ── Search ── */
+.ntb-search-wrap {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 7px 12px;
+  flex: 1;
+  min-width: 160px;
+  transition: border-color 0.15s;
+}
+
+.ntb-search-wrap:focus-within {
+  border-color: #93c5fd;
+}
+
+.ntb-icon {
+  font-size: 14px;
+  flex-shrink: 0;
+}
+
+.ntb-search {
+  flex: 1;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-size: 13px;
+  color: #1e293b;
+}
+
+.ntb-search::placeholder {
+  color: #94a3b8;
+}
+
+.ntb-clear {
+  background: none;
+  border: none;
+  font-size: 17px;
+  color: #94a3b8;
+  cursor: pointer;
+  padding: 0;
+  line-height: 1;
+}
+
+.ntb-clear:hover { color: #ef4444; }
+
+/* ── Tag chips ── */
+.ntb-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  align-items: center;
+}
+
+.ntb-chip {
+  padding: 4px 13px;
+  border-radius: 20px;
+  border: 1px solid #e2e8f0;
+  background: #f8fafc;
+  color: #475569;
+  font-size: 12px;
+  cursor: pointer;
+  transition: all 0.12s;
+  white-space: nowrap;
+}
+
+.ntb-chip:hover {
+  background: #eff6ff;
+  border-color: #bfdbfe;
+  color: #1d4ed8;
+}
+
+.ntb-chip-on {
+  background: #3b82f6 !important;
+  border-color: #3b82f6 !important;
+  color: #fff !important;
+  font-weight: 500;
+}
+
+/* ── Sort ── */
+.ntb-sort-wrap {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-left: auto;
+}
+
+.ntb-sort-label {
+  font-size: 12px;
+  color: #64748b;
+  white-space: nowrap;
+}
+
+.ntb-sort {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 6px 10px;
+  font-size: 12px;
+  color: #1e293b;
+  cursor: pointer;
+  outline: none;
+}
+
+.ntb-sort:focus { border-color: #93c5fd; }

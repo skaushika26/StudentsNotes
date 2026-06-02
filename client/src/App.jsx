@@ -7,6 +7,8 @@ import NotesList from "./components/NotesList";
 import NoteEditor from "./components/NoteEditor";
 import Archive from "./components/Archive";
 import ExportNotes from "./components/ExportNotes";
+import SharedNotes from "./components/SharedNotes";
+
 
 function App() {
   return (
@@ -20,6 +22,7 @@ function App() {
       <Route path="/notes/:id" element={<NoteEditor />} />
       <Route path="/archive" element={<Archive />} />
       <Route path="/export" element={<ExportNotes />} />
+      <Route path="/shared" element={<SharedNotes />} />
     </Routes>
   );
 }

@@ -39,7 +39,7 @@ export default function Login() {
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
-    console.log(data); 
+    // ✅ removed: console.log(data)
     if (error) setError("");
   };
 
@@ -143,11 +143,7 @@ export default function Login() {
             </div>
 
             <button type="submit" className={`login-btn${loading ? " loading" : ""}`} disabled={loading}>
-              {loading ? (
-                <span className="spinner" />
-              ) : (
-                "Sign in"
-              )}
+              {loading ? <span className="spinner" /> : "Sign in"}
             </button>
           </form>
 

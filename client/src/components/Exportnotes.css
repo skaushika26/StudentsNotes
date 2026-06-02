@@ -1,0 +1,78 @@
+/* ExportNotes.css */
+.export-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.btn-export {
+  padding: 9px 18px;
+  background: rgba(255, 255, 255, 0.12);
+  border: 1.5px solid rgba(255, 255, 255, 0.25);
+  border-radius: 8px;
+  color: #1565c0;
+  font-size: 0.88rem;
+  font-weight: 600;
+  cursor: pointer;
+  background: #ffffff;
+  border: 1.5px solid #dde3ec;
+  transition: all 0.18s ease;
+  white-space: nowrap;
+}
+.btn-export:hover {
+  border-color: #42a5f5;
+  color: #0d47a1;
+  background: #e3f2fd;
+}
+
+.export-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 90;
+}
+
+.export-menu {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  background: #ffffff;
+  border: 1.5px solid #dde3ec;
+  border-radius: 10px;
+  box-shadow: 0 8px 28px rgba(13, 71, 161, 0.15);
+  z-index: 100;
+  min-width: 200px;
+  overflow: hidden;
+}
+
+.export-menu-header {
+  padding: 10px 16px 8px;
+  font-size: 0.76rem;
+  font-weight: 700;
+  color: #90a4ae;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border-bottom: 1px solid #f0f4f8;
+}
+
+.export-option {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 11px 16px;
+  background: none;
+  border: none;
+  text-align: left;
+  font-size: 0.9rem;
+  color: #37474f;
+  cursor: pointer;
+  transition: background 0.14s;
+  font-family: inherit;
+}
+.export-option:hover {
+  background: #e3f2fd;
+  color: #0d47a1;
+}
+.export-option span {
+  font-size: 1rem;
+  flex-shrink: 0;
+}

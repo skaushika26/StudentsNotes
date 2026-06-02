@@ -1,0 +1,223 @@
+/* NoteCard.css - Complete working version */
+
+.note-card {
+  position: relative;
+  background: #ffffff;
+  border: 1px solid #dde3f0;
+  border-radius: 14px;
+  padding: 18px 16px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  box-shadow: 0 2px 8px rgba(30, 58, 138, 0.06);
+  transition: box-shadow 0.2s, transform 0.2s;
+}
+
+.note-card:hover {
+  box-shadow: 0 6px 24px rgba(30, 58, 138, 0.13);
+  transform: translateY(-2px);
+}
+
+.note-card.pinned {
+  border-color: #3b82f6;
+  background: #f0f6ff;
+}
+
+.note-card.selected {
+  outline: 2px solid #2563eb;
+  outline-offset: 2px;
+}
+
+.note-card.archived {
+  opacity: 0.85;
+  background: #f8fafc;
+}
+
+/* Checkbox top-left */
+.card-select {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  z-index: 2;
+}
+
+.card-select input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  accent-color: #2563eb;
+  cursor: pointer;
+}
+
+/* Pin badge */
+.pin-badge {
+  font-size: 11px;
+  font-weight: 600;
+  color: #2563eb;
+  margin-left: 28px;
+  margin-bottom: -4px;
+}
+
+/* Archived badge */
+.archived-badge {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: #ff9800;
+  color: white;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: bold;
+  z-index: 2;
+}
+
+/* ACTION BUTTONS - FIXED VISIBILITY */
+.card-actions {
+  display: flex !important;
+  flex-direction: row !important;
+  justify-content: flex-end !important;
+  gap: 8px !important;
+  min-height: 36px !important;
+  margin-bottom: 8px !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+.card-btn {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 4px !important;
+  background: #f1f5fb !important;
+  border: 1px solid #dde3f0 !important;
+  border-radius: 8px !important;
+  padding: 6px 12px !important;
+  font-size: 13px !important;
+  font-weight: 500 !important;
+  cursor: pointer !important;
+  transition: all 0.2s ease !important;
+  color: #1e3a8a !important;
+}
+
+.card-btn:hover {
+  background: #dbeafe !important;
+  border-color: #93c5fd !important;
+  transform: scale(1.02);
+}
+
+.card-btn.danger:hover {
+  background: #fee2e2 !important;
+  border-color: #fca5a5 !important;
+  color: #dc2626 !important;
+}
+
+/* Title */
+.card-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: #1e3a8a;
+  margin: 0;
+  line-height: 1.3;
+}
+
+/* Content preview */
+.card-content {
+  font-size: 13px;
+  color: #475569;
+  margin: 0;
+  line-height: 1.55;
+}
+
+/* Tags */
+.card-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.card-tag {
+  background: #eff6ff;
+  color: #1d4ed8;
+  font-size: 11px;
+  font-weight: 600;
+  border-radius: 99px;
+  padding: 2px 9px;
+}
+
+/* Attachments */
+.card-attachments {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.attachment-chip {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 7px;
+  padding: 3px 9px;
+  font-size: 12px;
+  color: #334155;
+  text-decoration: none;
+  transition: background 0.15s;
+}
+
+.attachment-chip:hover {
+  background: #dbeafe;
+  border-color: #93c5fd;
+}
+
+/* Footer */
+.card-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px solid #eef2f9;
+  padding-top: 10px;
+  margin-top: 4px;
+}
+
+.card-author {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.author-avatar {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #1e3a8a, #2563eb);
+  color: #fff;
+  font-size: 12px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.author-name {
+  font-size: 12px;
+  font-weight: 600;
+  color: #374151;
+}
+
+.card-meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.meta-date, .meta-views {
+  font-size: 11px;
+  color: #94a3b8;
+}
+
+.private-badge {
+  background: #fef9c3;
+  color: #854d0e;
+  border-radius: 5px;
+  padding: 1px 7px;
+  font-size: 10px;
+  font-weight: 600;
+}

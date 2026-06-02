@@ -50,8 +50,8 @@ export default function Dashboard() {
   if (search.trim()) {
     const q = search.toLowerCase();
     visibleNotes = visibleNotes.filter(
-      n => (n.title && n.title.toLowerCase().includes(q)) || 
-           (n.body && n.body.toLowerCase().includes(q))
+      n => (n.title && n.title.toLowerCase().includes(q)) ||
+        (n.body && n.body.toLowerCase().includes(q))
     );
   }
 
@@ -60,15 +60,15 @@ export default function Dashboard() {
   }
 
   if (sortOrder === "newest") {
-    visibleNotes = [...visibleNotes].sort((a, b) => 
+    visibleNotes = [...visibleNotes].sort((a, b) =>
       new Date(b.createdAt) - new Date(a.createdAt)
     );
   } else if (sortOrder === "oldest") {
-    visibleNotes = [...visibleNotes].sort((a, b) => 
+    visibleNotes = [...visibleNotes].sort((a, b) =>
       new Date(a.createdAt) - new Date(b.createdAt)
     );
   } else if (sortOrder === "alpha") {
-    visibleNotes = [...visibleNotes].sort((a, b) => 
+    visibleNotes = [...visibleNotes].sort((a, b) =>
       (a.title || "").localeCompare(b.title || "")
     );
   }
@@ -80,35 +80,35 @@ export default function Dashboard() {
   // FIXED: Archive note function with verification
   const archiveNote = (id) => {
     console.log("📦 Archiving note with ID:", id);
-    
+
     setNotes(prevNotes => {
       const updatedNotes = prevNotes.map(note => {
         if (note.id === id) {
           console.log("✅ Found note to archive:", note.title);
-          return { 
-            ...note, 
-            isArchived: true, 
-            updatedAt: new Date().toISOString() 
+          return {
+            ...note,
+            isArchived: true,
+            updatedAt: new Date().toISOString()
           };
         }
         return note;
       });
-      
+
       const archivedCount = updatedNotes.filter(n => n.isArchived).length;
       console.log(`📦 Total archived notes after action: ${archivedCount}`);
-      
+
       // Verify localStorage after update
       setTimeout(() => {
         const verify = JSON.parse(localStorage.getItem("notes") || "[]");
         console.log("🔍 Verification - Archived notes in localStorage:", verify.filter(n => n.isArchived).length);
       }, 100);
-      
+
       return updatedNotes;
     });
   };
 
   const togglePin = (id) => {
-    setNotes(prev => prev.map(n => 
+    setNotes(prev => prev.map(n =>
       n.id === id ? { ...n, isPinned: !n.isPinned } : n
     ));
   };
@@ -120,12 +120,22 @@ export default function Dashboard() {
   };
 
   // Handle file download
-const handleDownload = (attachment) => {
-  const link = document.createElement('a');
-  link.href = attachment.data;
-  link.download = attachment.name;
-  link.click();
-};
+  const handleDownload = (attachment) => {
+    const link = document.createElement('a');
+    link.href = attachment.data;
+    link.download = attachment.name;
+    link.click();
+  };
+  const shareNote = (id) => {
+    const saved = JSON.parse(localStorage.getItem("notes") || "[]");
+    const updated = saved.map((n) =>
+      n.id === id ? { ...n, isShared: !n.isShared } : n
+    );
+    localStorage.setItem("notes", JSON.stringify(updated));
+    setNotes(updated);
+    const note = updated.find((n) => n.id === id);
+    alert(note.isShared ? "✅ Note shared publicly!" : "🔒 Note unshared.");
+  };
 
   const renderNotes = (list) =>
   list.map((note) => (
@@ -168,17 +178,59 @@ const handleDownload = (attachment) => {
               <span>{att.name}</span>
               <span style={{ marginLeft: "auto", fontSize: "10px", color: "#64748b" }}>⬇️</span>
             </div>
+    list.map((note) => (
+      <div key={note.id} className="dash-note-card">
+
+        <div className="note-actions">
+          <span onClick={() => togglePin(note.id)}>📌</span>
+          <span onClick={() => { setSelectedNote(note); setShowModal(true); }}>✏️</span>
+          <span onClick={() => archiveNote(note.id)}>📦</span>
+          {/* NEW: Share button */}
+          <span onClick={() => shareNote(note.id)} title="Share publicly">🌐</span>
+          <span onClick={() => deleteNote(note.id)}>🗑</span>
+        </div>
+        <h3>{note.title}</h3>
+        <p>{note.body?.substring(0, 100)}</p>
+        <div className="note-tags">
+          {note.tags?.map((tag, i) => (
+            <span key={i} className="tag">#{tag}</span>
           ))}
         </div>
-      )}
-    </div>
-  ));
+
+        {/* Display attachments */}
+        {note.attachments && note.attachments.length > 0 && (
+          <div style={{ marginTop: "10px", paddingTop: "8px", borderTop: "1px solid #e2e8f0" }}>
+            {note.attachments.map((att) => (
+              <div
+                key={att.id}
+                onClick={() => handleDownload(att)}
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "6px",
+                  padding: "4px 8px",
+                  background: "#f1f5f9",
+                  borderRadius: "6px",
+                  cursor: "pointer",
+                  fontSize: "12px",
+                  marginBottom: "4px"
+                }}
+              >
+                <span>📎</span>
+                <span>{att.name}</span>
+                <span style={{ marginLeft: "auto", fontSize: "10px", color: "#64748b" }}>⬇️</span>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+    ));
 
   return (
     <div className="dash-root">
       <aside className="dash-sidebar">
         <h2>📝 NoteNest</h2>
-        <button 
+        <button
           className={window.location.pathname === "/dashboard" ? "active" : ""}
           onClick={() => navigate("/dashboard")}
         >
@@ -196,9 +248,13 @@ const handleDownload = (attachment) => {
            ⬇️ Export
         </button>
 
+
         <button onClick={() => navigate("/login")} className="logout-btn">
           🚪 Logout
+
         </button>
+
+        <button onClick={() => navigate("/shared")}>🌐 Shared Notes</button>
       </aside>
 
       <main className="dash-main">
@@ -244,16 +300,16 @@ const handleDownload = (attachment) => {
               setNotes((prev) => {
                 const exists = prev.find(n => n.id === newNote.id);
                 if (exists) {
-                  return prev.map(n => n.id === newNote.id ? { 
-                    ...newNote, 
-                    isArchived: n.isArchived, 
-                    isPinned: n.isPinned 
+                  return prev.map(n => n.id === newNote.id ? {
+                    ...newNote,
+                    isArchived: n.isArchived,
+                    isPinned: n.isPinned
                   } : n);
                 }
-                return [...prev, { 
-                  ...newNote, 
+                return [...prev, {
+                  ...newNote,
                   id: Date.now(),
-                  isPinned: false, 
+                  isPinned: false,
                   isArchived: false,
                   createdAt: new Date().toISOString()
                 }];
