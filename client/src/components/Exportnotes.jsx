@@ -1,89 +1,109 @@
-import React, { useState } from 'react';
-import './ExportNotes.css';
-import './ExportNotes.css';
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
-/**
- * ExportNotes
- * Props:
- *   notes       – full notes array currently shown
- *   selectedIds – array of selected note _id strings
- */
-export default function ExportNotes({ notes = [], selectedIds = [] }) {
-  const [open, setOpen] = useState(false);
+const ExportNotes = () => {
+  const [notes, setNotes] = useState([]);
+  const [selectedIds, setSelectedIds] = useState([]);
+  const navigate = useNavigate();
+ 
+  useEffect(() => {
+    const saved = localStorage.getItem("notes");
 
-  const targetNotes = selectedIds.length > 0
-    ? notes.filter(n => selectedIds.includes(n._id))
-    : notes;
+    console.log("📦 Raw localStorage:", saved);
+
+    if (saved) {
+      try {
+        const parsed = JSON.parse(saved);
+        console.log("✅ Parsed notes:", parsed);
+        setNotes(parsed);
+      } catch (err) {
+        console.error("❌ JSON parse error:", err);
+      }
+    } else {
+      console.log("⚠️ No notes found in localStorage");
+    }
+  }, []);
+  const exportSingleNote = (note) => {
+    const content = `
+  Title: ${note.title || "No Title"}
+  Content: ${note.body || "No Content"}
+  Tags: ${note.tags?.map(t => `#${t}`).join(", ") || "None"}
+  Date: ${new Date(note.createdAt).toLocaleString()}
+  -----------------------
+  `;
+
+    const blob = new Blob([content], { type: "text/plain" });
+    const url = URL.createObjectURL(blob);
+
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `${note.title || "note"}.txt`;
+    a.click();
+  };
 
   const exportAsJSON = () => {
-    const data = JSON.stringify(targetNotes, null, 2);
-    download(data, 'notes.json', 'application/json');
-    setOpen(false);
+    const data = JSON.stringify(notes, null, 2);
+    const blob = new Blob([data], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "notes.json";
+    a.click();
   };
 
   const exportAsText = () => {
-    const data = targetNotes.map(n =>
-      `# ${n.title}\n${n.content || ''}\nTags: ${(n.tags || []).join(', ')}\n`
-    ).join('\n---\n\n');
-    download(data, 'notes.txt', 'text/plain');
-    setOpen(false);
-  };
+    const data = notes
+      .map(note => `${note.title}\n${note.body}\n\n`)
+      .join("");
 
-  const exportAsCSV = () => {
-    const header = 'Title,Content,Tags,Author,Created\n';
-    const rows = targetNotes.map(n => {
-      const title   = `"${(n.title   || '').replace(/"/g, '""')}"`;
-      const content = `"${(n.content || '').replace(/"/g, '""')}"`;
-      const tags    = `"${(n.tags || []).join(', ')}"`;
-      const author  = `"${n.author?.name || n.author?.email || ''}"`;
-      const date    = `"${n.createdAt ? new Date(n.createdAt).toLocaleDateString() : ''}"`;
-      return [title, content, tags, author, date].join(',');
-    }).join('\n');
-    download(header + rows, 'notes.csv', 'text/csv');
-    setOpen(false);
-  };
+    const blob = new Blob([data], { type: "text/plain" });
+    const url = URL.createObjectURL(blob);
 
-  const download = (content, filename, type) => {
-    const blob = new Blob([content], { type });
-    const url  = URL.createObjectURL(blob);
-    const a    = document.createElement('a');
-    a.href     = url;
-    a.download = filename;
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "notes.txt";
     a.click();
-    URL.revokeObjectURL(url);
   };
 
   return (
-    <div className="export-wrapper">
-      <button
-        className="btn-export"
-        onClick={() => setOpen(o => !o)}
-        title="Export notes"
-      >
-        ⬇ Export{selectedIds.length > 0 ? ` (${selectedIds.length})` : ''}
-      </button>
+  <div className="dash-root">
+  <aside className="dash-sidebar">
+    <h2>📝 NoteNest</h2>
 
-      {open && (
-        <>
-          <div className="export-backdrop" onClick={() => setOpen(false)} />
-          <div className="export-menu">
-            <div className="export-menu-header">
-              {selectedIds.length > 0
-                ? `Export ${selectedIds.length} selected note${selectedIds.length !== 1 ? 's' : ''}`
-                : `Export all ${notes.length} notes`}
-            </div>
-            <button className="export-option" onClick={exportAsJSON}>
-              <span>{ }</span> JSON
-            </button>
-            <button className="export-option" onClick={exportAsText}>
-              <span>📄</span> Plain Text
-            </button>
-            <button className="export-option" onClick={exportAsCSV}>
-              <span>📊</span> CSV
+    <button onClick={() => navigate("/dashboard")}>🏠 Notes</button>
+    <button onClick={() => navigate("/archive")}>📦 Archive</button>
+    <button className="active">⬇️ Export</button>
+    <button onClick={() => navigate("/login")} className="logout-btn">
+      🚪 Logout
+    </button>
+  </aside>
+
+  <main className="dash-main">
+    <h2>⬇️ Export Notes</h2>
+
+    {notes.length === 0 ? (
+      <p>No notes available</p>
+    ) : (
+      <div className="dash-notes-grid">
+        {notes.map(note => (
+          <div key={note.id} className="dash-note-card">
+            <h3>{note.title}</h3>
+            <p>{note.body?.substring(0, 80)}</p>
+
+            <button
+              onClick={() => exportSingleNote(note)}
+              style={{ marginTop: "10px" }}
+            >
+              ⬇️ Download
             </button>
           </div>
-        </>
-      )}
-    </div>
-  );
-}
+        ))}
+      </div>
+    )}
+  </main>
+</div>
+);
+};
+
+export default ExportNotes;
