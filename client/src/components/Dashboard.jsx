@@ -140,27 +140,28 @@ export default function Dashboard() {
   const renderNotes = (list) =>
   list.map((note) => (
     <div key={note.id} className="dash-note-card">
-        
       <div className="note-actions">
         <span onClick={() => togglePin(note.id)}>📌</span>
         <span onClick={() => { setSelectedNote(note); setShowModal(true); }}>✏️</span>
         <span onClick={() => archiveNote(note.id)}>📦</span>
+        <span onClick={() => shareNote(note.id)} title="Share publicly">🌐</span>
         <span onClick={() => deleteNote(note.id)}>🗑</span>
       </div>
+
       <h3>{note.title}</h3>
       <p>{note.body?.substring(0, 100)}</p>
+
       <div className="note-tags">
         {note.tags?.map((tag, i) => (
           <span key={i} className="tag">#{tag}</span>
         ))}
       </div>
-      
-      {/* Display attachments */}
+
       {note.attachments && note.attachments.length > 0 && (
         <div style={{ marginTop: "10px", paddingTop: "8px", borderTop: "1px solid #e2e8f0" }}>
           {note.attachments.map((att) => (
-            <div 
-              key={att.id} 
+            <div
+              key={att.id}
               onClick={() => handleDownload(att)}
               style={{
                 display: "flex",
@@ -176,55 +177,15 @@ export default function Dashboard() {
             >
               <span>📎</span>
               <span>{att.name}</span>
-              <span style={{ marginLeft: "auto", fontSize: "10px", color: "#64748b" }}>⬇️</span>
+              <span style={{ marginLeft: "auto", fontSize: "10px", color: "#64748b" }}>
+                ⬇️
+              </span>
             </div>
-    list.map((note) => (
-      <div key={note.id} className="dash-note-card">
-
-        <div className="note-actions">
-          <span onClick={() => togglePin(note.id)}>📌</span>
-          <span onClick={() => { setSelectedNote(note); setShowModal(true); }}>✏️</span>
-          <span onClick={() => archiveNote(note.id)}>📦</span>
-          {/* NEW: Share button */}
-          <span onClick={() => shareNote(note.id)} title="Share publicly">🌐</span>
-          <span onClick={() => deleteNote(note.id)}>🗑</span>
-        </div>
-        <h3>{note.title}</h3>
-        <p>{note.body?.substring(0, 100)}</p>
-        <div className="note-tags">
-          {note.tags?.map((tag, i) => (
-            <span key={i} className="tag">#{tag}</span>
           ))}
         </div>
-
-        {/* Display attachments */}
-        {note.attachments && note.attachments.length > 0 && (
-          <div style={{ marginTop: "10px", paddingTop: "8px", borderTop: "1px solid #e2e8f0" }}>
-            {note.attachments.map((att) => (
-              <div
-                key={att.id}
-                onClick={() => handleDownload(att)}
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: "6px",
-                  padding: "4px 8px",
-                  background: "#f1f5f9",
-                  borderRadius: "6px",
-                  cursor: "pointer",
-                  fontSize: "12px",
-                  marginBottom: "4px"
-                }}
-              >
-                <span>📎</span>
-                <span>{att.name}</span>
-                <span style={{ marginLeft: "auto", fontSize: "10px", color: "#64748b" }}>⬇️</span>
-              </div>
-            ))}
-          </div>
-        )}
-      </div>
-    ));
+      )}
+    </div>
+  ));
 
   return (
     <div className="dash-root">
